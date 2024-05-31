@@ -82,6 +82,12 @@ const localGuradianSchema = new mongoose_1.Schema({
 });
 const studentSchema = new mongoose_1.Schema({
     id: { type: String, required: [true, "ID is required"], unique: true },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: [true, "User ID is required"],
+        unique: true,
+        ref: "User",
+    },
     password: {
         type: String,
         required: [true, "Password is required"],
@@ -134,14 +140,6 @@ const studentSchema = new mongoose_1.Schema({
         required: [true, "Local guardian information is required"],
     },
     profileImg: { type: String },
-    isActive: {
-        type: String,
-        enum: {
-            values: ["active", "blocked"],
-            message: "{VALUE} is not a valid status",
-        },
-        default: "active",
-    },
     isDeleted: {
         type: Boolean,
         default: false,
