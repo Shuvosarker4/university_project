@@ -1,19 +1,23 @@
-import express, { application } from "express";
+import express from "express";
 import cors from "cors";
 import { StudentRoutes } from "./modules/students/student.routes";
 import { UserRoutes } from "./modules/User/user.route";
+import globalErrorHandler from "./app/middleware/globalErrorhandler";
+import notFound from "./app/middleware/notFound";
+import router from "./app/routes";
 const app = express();
-const port = 5000;
 //parsers
 app.use(express.json());
 app.use(cors());
 
 //application routes
-app.use("/api/v1/students", StudentRoutes);
-app.use("/api/v1/users", UserRoutes);
+app.use("/api/v1", router);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+app.use(globalErrorHandler);
+app.use(notFound);
 
 export default app;

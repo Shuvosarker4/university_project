@@ -1,58 +1,63 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { StudentServices } from "./student.service";
+import sendResponse from "../../app/utils/sendResponse";
+import httpStatus from "http-status";
 
-const getAllStudent = async (req: Request, res: Response) => {
+const getAllStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await StudentServices.getAllStudentFromDB();
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: "All Student get succesfully",
+      message: "Student is created succesfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "something went wrong",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { studentId } = req.params;
     const result = await StudentServices.getSingleStudentFromDB(studentId);
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: "Get a Student succesfully",
+      message: "Student is created succesfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "something went wrong",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
-const deleteStudent = async (req: Request, res: Response) => {
+const deleteStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { studentId } = req.params;
 
     const result = await StudentServices.deleteStudentFromDB(studentId);
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: "Student is deleted succesfully",
+      message: "Student is created succesfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "something went wrong",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
