@@ -70,8 +70,27 @@ const getSingleStudent = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+const deleteStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { studentId } = req.params;
+        const result = yield student_service_1.StudentServices.deleteStudentFromDB(studentId);
+        res.status(200).json({
+            success: true,
+            message: "Student is deleted succesfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message || "something went wrong",
+            error: err,
+        });
+    }
+});
 exports.StudentControllers = {
     createStudent,
     getAllStudent,
     getSingleStudent,
+    deleteStudent,
 };

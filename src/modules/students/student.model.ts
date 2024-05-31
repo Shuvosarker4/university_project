@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 import {
   StudentModel,
   TGuardian,
@@ -6,6 +7,7 @@ import {
   TStudent,
   TUserName,
 } from "./student.interface";
+import config from "../../config";
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -147,6 +149,45 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
   }
 );
+
+// virtual
+studentSchema.virtual("fullName").get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
+
+// pre save middleware/ hook : will work on create()  save()
+studentSchema.pre("save", async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+  next();
+});
+
+// post save middleware / hook
+studentSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+
+// Query Middleware
+studentSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+//query  for findOne
+studentSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+//query for aggregate
+studentSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 //creating a custom static method
 studentSchema.statics.isUserExists = async function (id: string) {
