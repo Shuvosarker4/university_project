@@ -37,7 +37,6 @@ const getAllAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter
 }));
 const getSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { semesterId } = req.params;
-    console.log(semesterId);
     const result = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterIntoDB(semesterId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

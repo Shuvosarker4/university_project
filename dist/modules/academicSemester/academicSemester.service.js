@@ -24,7 +24,7 @@ const getAllAcademicSemesterIntoDB = () => __awaiter(void 0, void 0, void 0, fun
     return result;
 });
 const getSingleAcademicSemesterIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicSemester_model_1.AcademicSemester.findById({ id });
+    const result = yield academicSemester_model_1.AcademicSemester.findById({ _id: id });
     return result;
 });
 const updateAcademicSemesterIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
