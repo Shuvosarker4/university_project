@@ -33,7 +33,7 @@ exports.createStudentValidationSchema = zod_1.z.object({
         student: zod_1.z.object({
             name: userNameValidationSchema,
             gender: zod_1.z.enum(["male", "female", "other"]),
-            dateOfBirth: zod_1.z.string(),
+            dateOfBirth: zod_1.z.date().optional(),
             email: zod_1.z.string().email(),
             contactNo: zod_1.z.string(),
             emergencyContactNo: zod_1.z.string(),

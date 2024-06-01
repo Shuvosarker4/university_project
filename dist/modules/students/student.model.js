@@ -95,7 +95,7 @@ const studentSchema = new mongoose_1.Schema({
         },
         required: [true, "Gender is required"],
     },
-    dateOfBirth: { type: String },
+    dateOfBirth: { type: Date },
     email: {
         type: String,
         required: [true, "Email is required"],
