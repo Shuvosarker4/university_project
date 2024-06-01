@@ -22,7 +22,6 @@ const createStudentIntoDB = (password, payLoad) => __awaiter(void 0, void 0, voi
     const userData = {};
     userData.password = password || config_1.default.default_pass;
     userData.role = "student";
-    //find academic semester info
     const admissionSemester = yield academicSemester_model_1.AcademicSemester.findById(payLoad.admissionSemester);
     //set manually generated it
     userData.id = yield (0, user_utils_1.generateStudentId)(admissionSemester);

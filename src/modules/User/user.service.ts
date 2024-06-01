@@ -11,7 +11,6 @@ const createStudentIntoDB = async (password: string, payLoad: TStudent) => {
   userData.password = password || (config.default_pass as string);
   userData.role = "student";
 
-  //find academic semester info
   const admissionSemester: any = await AcademicSemester.findById(
     payLoad.admissionSemester
   );
