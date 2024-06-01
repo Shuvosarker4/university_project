@@ -43,6 +43,7 @@ exports.createStudentValidationSchema = zod_1.z.object({
             guardian: guardianValidationSchema,
             localGuardian: localGuardianValidationSchema,
             admissionSemester: zod_1.z.string(),
+            academicDepartment: zod_1.z.string(),
             profileImg: zod_1.z.string(),
         }),
     }),
