@@ -1,65 +1,41 @@
-import { NextFunction, Request, Response } from "express";
 import { StudentServices } from "./student.service";
 import sendResponse from "../../app/utils/sendResponse";
 import httpStatus from "http-status";
+import catchAsync from "../../app/utils/catchAsync";
 
-const getAllStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const result = await StudentServices.getAllStudentFromDB();
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Student is created succesfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+const getAllStudent = catchAsync(async (req, res) => {
+  const result = await StudentServices.getAllStudentFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student is created succesfully",
+    data: result,
+  });
+});
 
-const getSingleStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { studentId } = req.params;
-    const result = await StudentServices.getSingleStudentFromDB(studentId);
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Student is created succesfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+const getSingleStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const result = await StudentServices.getSingleStudentFromDB(studentId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student is created succesfully",
+    data: result,
+  });
+});
 
-const deleteStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { studentId } = req.params;
+const deleteStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
 
-    const result = await StudentServices.deleteStudentFromDB(studentId);
+  const result = await StudentServices.deleteStudentFromDB(studentId);
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Student is created succesfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student is created succesfully",
+    data: result,
+  });
+});
 
 export const StudentControllers = {
   getAllStudent,

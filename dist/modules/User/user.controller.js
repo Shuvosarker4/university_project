@@ -16,23 +16,19 @@ exports.UserController = void 0;
 const user_service_1 = require("./user.service");
 const sendResponse_1 = __importDefault(require("../../app/utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
-const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { password, student: studentData } = req.body;
-        //zod validation
-        // const zodValidation = studentValidationSchema.parse(studentData);
-        const result = yield user_service_1.UserService.createStudentIntoDB(password, studentData);
-        (0, sendResponse_1.default)(res, {
-            statusCode: http_status_1.default.OK,
-            success: true,
-            message: "Student is created succesfully",
-            data: result,
-        });
-    }
-    catch (err) {
-        next(err);
-    }
-});
+const catchAsync_1 = __importDefault(require("../../app/utils/catchAsync"));
+const createStudent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { password, student: studentData } = req.body;
+    //zod validation
+    // const zodValidation = studentValidationSchema.parse(studentData);
+    const result = yield user_service_1.UserService.createStudentIntoDB(password, studentData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Student is created succesfully",
+        data: result,
+    });
+}));
 exports.UserController = {
     createStudent,
 };
