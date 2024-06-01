@@ -139,10 +139,10 @@ const studentSchema = new mongoose_1.Schema({
         virtuals: true,
     },
 });
-// virtual
-studentSchema.virtual("fullName").get(function () {
-    return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
-});
+// // virtual
+// studentSchema.virtual("fullName").get(function () {
+//   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+// });
 // Query Middleware
 studentSchema.pre("find", function (next) {
     this.find({ isDeleted: { $ne: true } });
