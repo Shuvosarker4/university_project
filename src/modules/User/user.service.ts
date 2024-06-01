@@ -1,16 +1,23 @@
 import config from "../../config";
+import { AcademicSemester } from "../academicSemester/academicSemester.model";
 import { TStudent } from "../students/student.interface";
 import { Student } from "../students/student.model";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
+import { generateStudentId } from "./user.utils";
 
-const createStudentIntoDB = async (password: string, studentData: TStudent) => {
+const createStudentIntoDB = async (password: string, payLoad: TStudent) => {
   const userData: Partial<TUser> = {};
   userData.password = password || (config.default_pass as string);
   userData.role = "student";
 
+  //find academic semester info
+  const admissionSemester: any = await AcademicSemester.findById(
+    payLoad.admissionSemester
+  );
+
   //set manually generated it
-  userData.id = "2030100001";
+  userData.id = await generateStudentId(admissionSemester);
 
   // create a user
   const newUser = await User.create(userData);
@@ -18,10 +25,10 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   //create a student
   if (Object.keys(newUser).length) {
     // set id , _id as user
-    studentData.id = newUser.id;
-    studentData.user = newUser._id; //reference _id
+    payLoad.id = newUser.id;
+    payLoad.user = newUser._id; //reference _id
 
-    const newStudent = await Student.create(studentData);
+    const newStudent = await Student.create(payLoad);
     return newStudent;
   }
 };
