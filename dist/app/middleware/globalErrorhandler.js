@@ -8,6 +8,7 @@ const zodErrors_1 = __importDefault(require("../errors/zodErrors"));
 const validationError_1 = __importDefault(require("../errors/validationError"));
 const handleCastError_1 = __importDefault(require("../errors/handleCastError"));
 const handleDuplicateError_1 = __importDefault(require("../errors/handleDuplicateError"));
+const AppError_1 = __importDefault(require("../errors/AppError"));
 const globalErrorHandler = (err, req, res, next) => {
     let statusCode = 500;
     let message = "Something went wrong!";
@@ -40,6 +41,25 @@ const globalErrorHandler = (err, req, res, next) => {
         statusCode = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.statusCode;
         message = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.message;
         errorSources = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.errorSources;
+    }
+    else if (err instanceof AppError_1.default) {
+        statusCode = err === null || err === void 0 ? void 0 : err.statusCode;
+        message = err.message;
+        errorSources = [
+            {
+                path: "",
+                message: err === null || err === void 0 ? void 0 : err.message,
+            },
+        ];
+    }
+    else if (err instanceof Error) {
+        message = err.message;
+        errorSources = [
+            {
+                path: "",
+                message: err === null || err === void 0 ? void 0 : err.message,
+            },
+        ];
     }
     //ultimate return
     return res.status(statusCode).json({
